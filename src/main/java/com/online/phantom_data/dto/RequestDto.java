@@ -1,15 +1,11 @@
 package com.online.phantom_data.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import uz.pdp.app.enums.FieldType;
 
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
 public class RequestDto {
     private String format; // JSON, CSV, SQL
     private List<FieldType> fields; // Tanlangan FieldType lar
