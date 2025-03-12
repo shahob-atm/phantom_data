@@ -2,11 +2,14 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-# Maven build qilish
+# Kodni konteynerga nusxalash
 COPY . .
-RUN ./mvnw clean package -DskipTests
 
-# `target/` ichidagi .jar faylni to‘g‘ri nom bilan ko‘rsating
+# Maven build qilish
+RUN apt-get update && apt-get install -y maven
+RUN mvn clean package -DskipTests
+
+# Jar faylni nusxalash
 COPY target/phantom_data.jar app.jar
 
 # Agar `libs/seeder.jar` kerak bo‘lsa, uni ham nusxalash
