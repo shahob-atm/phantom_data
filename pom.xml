@@ -37,8 +37,8 @@
     </dependencies>
 
     <build>
-        <directory>target</directory>
-        <finalName>phantom_data</finalName>
+<!--        <directory>target</directory>
+        <finalName>phantom_data</finalName>-->
         <plugins>
             <!-- Shade plugin: Barcha dependency'larni bitta jar ichiga joylash -->
             <plugin>
