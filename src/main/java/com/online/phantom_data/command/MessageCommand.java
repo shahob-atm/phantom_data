@@ -1,7 +1,5 @@
 package com.online.phantom_data.command;
 
-import lombok.Getter;
-
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
