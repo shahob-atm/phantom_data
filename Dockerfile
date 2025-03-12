@@ -2,20 +2,19 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-# Maven build qilish uchun zarur paketlar
+# Maven'ni o‘rnatish
 RUN apt-get update && apt-get install -y maven
 
-# Loyiha fayllarini konteynerga nusxalash
+# Loyiha fayllarini konteynerga ko‘chirish
 COPY . .
 
-# Jar build qilish
+# **To‘g‘ri path** ga build qilish
 RUN mvn clean package -DskipTests
 
-# Jar faylni to‘g‘ri joydan olish
-COPY out/artifacts/phantom_data_jar/phantom_data.jar app.jar
+# **Yangi build qilingan .jar faylni olish**
+COPY target/phantom_data.jar app.jar
 
-# Seeder library'ni qo‘shish
+# **Seeder kutubxonasini qo‘shish**
 COPY libs/seeder.jar libs/seeder.jar
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
