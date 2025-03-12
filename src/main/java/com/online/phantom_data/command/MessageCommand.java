@@ -7,12 +7,16 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Getter
 public enum MessageCommand {
     START("/start"),
     HELP("/help");
 
     private final String command;
+
+    public String getCommand() {
+        return command;
+    }
+
     private static final Map<String, MessageCommand> COMMAND_MAP = Stream.of(values())
             .collect(Collectors.toMap(MessageCommand::getCommand, Function.identity()));
 

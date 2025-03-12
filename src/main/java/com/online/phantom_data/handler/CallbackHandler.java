@@ -26,8 +26,7 @@ public class CallbackHandler {
         String data = callbackQuery.getData();
 
         // Har bir foydalanuvchi uchun alohida `RequestDTO` obyektini saqlash
-        userRequests.putIfAbsent(chatId, new RequestDto());
-        RequestDto requestDto = userRequests.get(chatId);
+        RequestDto requestDto = userRequests.computeIfAbsent(chatId, k -> new RequestDto());
 
         if (requestDto.getFields() == null) {
             requestDto.setFields(new ArrayList<>());
