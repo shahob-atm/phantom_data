@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestDTO {
+public class RequestDto {
     private String format; // JSON, CSV, SQL
     private List<FieldType> fields; // Tanlangan FieldType lar
 }

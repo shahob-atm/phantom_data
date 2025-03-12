@@ -1,6 +1,6 @@
 package com.online.phantom_data.handler;
 
-import com.online.phantom_data.dto.RequestDTO;
+import com.online.phantom_data.dto.RequestDto;
 import com.online.phantom_data.service.BotService;
 import com.online.phantom_data.util.FileUtil;
 import com.online.phantom_data.util.KeyboardUtil;
@@ -15,7 +15,7 @@ import java.util.*;
 
 public class CallbackHandler {
     private final BotService botService;
-    private final Map<Long, RequestDTO> userRequests = new HashMap<>();
+    private final Map<Long, RequestDto> userRequests = new HashMap<>();
 
     public CallbackHandler(BotService botService) {
         this.botService = botService;
@@ -26,29 +26,29 @@ public class CallbackHandler {
         String data = callbackQuery.getData();
 
         // Har bir foydalanuvchi uchun alohida `RequestDTO` obyektini saqlash
-        userRequests.putIfAbsent(chatId, new RequestDTO());
-        RequestDTO requestDTO = userRequests.get(chatId);
+        userRequests.putIfAbsent(chatId, new RequestDto());
+        RequestDto requestDto = userRequests.get(chatId);
 
-        if (requestDTO.getFields() == null) {
-            requestDTO.setFields(new ArrayList<>());
+        if (requestDto.getFields() == null) {
+            requestDto.setFields(new ArrayList<>());
         }
 
         if (data.startsWith("FORMAT_")) {
-            requestDTO.setFormat(data.replace("FORMAT_", ""));
+            requestDto.setFormat(data.replace("FORMAT_", ""));
             SendMessage message = new SendMessage(chatId.toString(), "<b>Field type larni tanlang: </b>");
             message.setReplyMarkup(KeyboardUtil.generateFieldTypeKeyboard());
             message.setParseMode("HTML");
             botService.sendMessage(callbackQuery.getMessage(), message);
         } else if (data.startsWith("FIELD_")) {
-            requestDTO.getFields().add(FieldType.valueOf(data.replace("FIELD_", "")));
-            System.out.println(requestDTO.getFields().toString());
-            SendMessage message = new SendMessage(chatId.toString(), "<b>Tanlangan fieldlar: </b>\n" + getFieldTypeValues(requestDTO.getFields()));
+            requestDto.getFields().add(FieldType.valueOf(data.replace("FIELD_", "")));
+            System.out.println(requestDto.getFields().toString());
+            SendMessage message = new SendMessage(chatId.toString(), "<b>Tanlangan fieldlar: </b>\n" + getFieldTypeValues(requestDto.getFields()));
             message.setReplyMarkup(KeyboardUtil.generateFieldTypeKeyboard());
             message.setParseMode("HTML");
             botService.sendMessage(callbackQuery.getMessage(), message);
         } else if (data.equalsIgnoreCase("GENERATE")) {
             try {
-                Path path = FileUtil.writeToFile(getRequest(requestDTO));
+                Path path = FileUtil.writeToFile(getRequest(requestDto));
                 botService.sendFile(callbackQuery.getMessage(), path);
             }catch (Exception e){
                 botService.sendMessage(callbackQuery.getMessage(), new SendMessage(chatId.toString(), "⚠️ Fayl yozishda xatolik, qaytaa urining /start!"));
@@ -66,12 +66,12 @@ public class CallbackHandler {
         return stringJoiner.toString();
     }
 
-    private Request getRequest(RequestDTO requestDTO) {
-        System.out.println("requestDTO.toString() = " + requestDTO.toString());
+    private Request getRequest(RequestDto requestDto) {
+        System.out.println("requestDTO.toString() = " + requestDto.toString());
         List<Pairs> pairs = new ArrayList<>();
-        for (FieldType field : requestDTO.getFields()) {
+        for (FieldType field : requestDto.getFields()) {
             pairs.add(new Pairs(field.name(), field));
         }
-        return new Request("phantom." + requestDTO.getFormat().toLowerCase(), 100, requestDTO.getFormat().toLowerCase(), pairs);
+        return new Request("phantom." + requestDto.getFormat().toLowerCase(), 100, requestDto.getFormat().toLowerCase(), pairs);
     }
 }
