@@ -40,7 +40,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.example.Main</mainClass>
+                            <mainClass>com.online.phantom_data.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
