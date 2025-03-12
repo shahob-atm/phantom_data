@@ -12,7 +12,7 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 # **Yangi build qilingan .jar faylni olish**
-COPY target/phantom_data.jar app.jar
+COPY out/phantom_data.jar app.jar
 
 # **Seeder kutubxonasini qo‘shish**
 COPY libs/seeder.jar libs/seeder.jar
