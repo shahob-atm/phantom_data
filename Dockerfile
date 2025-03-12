@@ -2,7 +2,11 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-# `target/` ichidagi .jar faylni aniq nomi bilan ko‘rsating!
+# Maven build qilish
+COPY . .
+RUN ./mvnw clean package -DskipTests
+
+# `target/` ichidagi .jar faylni to‘g‘ri nom bilan ko‘rsating
 COPY target/phantom_data.jar app.jar
 
 # Agar `libs/seeder.jar` kerak bo‘lsa, uni ham nusxalash
